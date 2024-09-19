@@ -42,11 +42,9 @@ cd snparcher-cli
 
 - **Conda**:` conda activate snparcher-cli-env && pip install -e .`
 - **uv**:` uv pip install -e .`
-```
-4. Check it worked!
-```console
-snparcher --help
-```
+
+4. Check it worked! `snparcher --help`
+
 
 ## Testing
 
