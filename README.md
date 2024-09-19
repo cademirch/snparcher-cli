@@ -35,24 +35,13 @@ git clone https://github.com/cademirch/snparcher-cli.git
 cd snparcher-cli
 ```
 2. Create Conda env, or use [uv](https://docs.astral.sh/uv/) to setup env.
-**Conda**:
-```console
-conda create -n snparcher-cli-env "python>=3.12"
-```
-**uv**:
-```console
-uv venv --python 3.12
-source .venv/bin/activate
-```
+
+- **Conda**:`conda create -n snparcher-cli-env "python>=3.12"`
+- **uv**:`uv venv --python 3.12 && source .venv/bin/activate`
 3. Install `snparcher` locally and editable
-**Conda**:
-```console
-conda activate snparcher-cli-env
-pip install -e .
-```
-**uv**:
-```console
-uv pip install -e .
+
+- **Conda**:` conda activate snparcher-cli-env && pip install -e .`
+- **uv**:` uv pip install -e .`
 ```
 4. Check it worked!
 ```console
