@@ -1,0 +1,22 @@
+[project]
+name = "snparcher"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cyvcf2>=0.31.1",
+    "pandas>=2.2.2",
+    "snakemake>=8.20.3",
+    "typer>=0.12.5",
+]
+
+[project.scripts]
+snparcher = "snparcher.main:app"
+
+[tool.setuptools.package-data]
+snparcher = ["workflow/**/*", "workflow/**/**/*"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
