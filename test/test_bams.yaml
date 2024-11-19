@@ -1,5 +1,5 @@
 - name: Test starting from bams (dryrun)
-  command: snparcher run --samples start_from_bams/bams.csv --reference data/genome/local_genome.fna.gz -n
+  command: snparcher run --samples test/start_from_bams/bams.csv --reference test/data/genome/local_genome.fna.gz -n
   stdout:
     contains:
       - "all                          1"
