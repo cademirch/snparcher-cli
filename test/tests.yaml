@@ -1,0 +1,32 @@
+- name: Test starting from bams (dryrun)
+  command: snparcher run --samples test/start_from_bams/bams.csv --reference test/data/genome/local_genome.fna.gz -n
+  stdout:
+    contains:
+      - "all                          1"
+      - "concat_gvcfs                 1"
+      - "create_gvcf_intervals        1"
+      - "format_interval_list         1"
+      - "index_reference              1"
+      - "picard_intervals             1"
+      - "total                        6"
+    must_not_contain:
+      - "bwa_mem"
+      - "fastp"
+
+# - name: Test starting from bams
+#   command: snparcher run --samples test/start_from_bams/bams.csv --reference test/data/genome/local_genome.fna.gz --use-conda --cores 1
+#   files:
+#     - path: "gvcfs/sample1.g.vcf.gz"
+#   stdout:
+#     contains:
+#       - "all                          1"
+#       - "concat_gvcfs                 1"
+#       - "create_gvcf_intervals        1"
+#       - "format_interval_list         1"
+#       - "index_reference              1"
+#       - "picard_intervals             1"
+#       - "total                        6"
+#       - "(100%) done"
+#     must_not_contain:
+#       - "bwa_mem"
+#       - "fastp"

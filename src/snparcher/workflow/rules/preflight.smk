@@ -1,6 +1,6 @@
 import pandas as pd
 import pandera as pa
-from pandera import Column, DataFrameSchema
+from pandera import Column, DataFrameSchema, Check
 
 
 class SampleSheetValidator:
@@ -9,7 +9,13 @@ class SampleSheetValidator:
         self.df = pd.read_csv(csv_path)
         self.schema = DataFrameSchema(
             {
-                "sample_id": Column(str, nullable=False),
+                "sample_id": Column(
+                    str,
+                    nullable=False,
+                    required=True,
+                    coerce=True,
+                    checks=Check.str_matches(r"^[a-zA-Z0-9_]+$"),
+                ),
                 "sra_accession": Column(str, nullable=True, required=False),
                 "read_1": Column(str, nullable=True, required=False),
                 "read_2": Column(str, nullable=True, required=False),

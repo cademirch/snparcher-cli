@@ -1,16 +1,17 @@
 # ruff: noqa: F821
 from pathlib import Path
+from os.path import relpath
 import pandas as pd
 from collections import namedtuple
 
 include: "preflight.smk"
 
-if config.get("outdir"):
-    # only try to make outdir if we not doing dryrun and is not snakemake subprocess/remote
-    if not workflow.dryrun and workflow.is_main_process:
-        Path(config["outdir"]).mkdir(parents=True, exist_ok=True)
-    config["samples"] = Path(config["samples"]).relative_to(config["outdir"])
+if config["outdir"] is not None:
+    config["samples"] = relpath(config["samples"],config["outdir"])
+    config["reference"] = relpath(config["reference"],config["outdir"])
     workdir: config["outdir"]
+
+
 
 samples = (
     SampleSheetValidator(config["samples"])
@@ -39,11 +40,16 @@ def _reference(wc: namedtuple) -> str:
 
 
 def _reference_idx(wc: namedtuple) -> dict:
-    prefix = _reference(wc)
+    ref =_reference(wc)
+    prefix = Path(ref)
+    while prefix.suffix in {'.fna', '.gz', '.fa'}:
+        prefix = prefix.with_suffix('')
+    
+    
 
     out = dict(
-        bwa_indexes=[f"{prefix}.{ext}" for ext in ["sa", "pac", "bwt", "ann", "amb"]],
-        fai=f"{prefix}.fai",
+        bwa_indexes=[f"{ref}.{ext}" for ext in ["sa", "pac", "bwt", "ann", "amb"]],
+        fai=f"{ref}.fai",
         dictf=f"{prefix}.dict",
     )
 

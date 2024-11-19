@@ -73,7 +73,7 @@ checkpoint create_gvcf_intervals:
     shell:
         """
         gatk SplitIntervals -L {input.intervals} \
-        -O {output.out_dir} -R {input.ref} -scatter {params} \
+        -O {output.out_dir} -R {input.ref} --scatter {params} \
         -mode BALANCING_WITHOUT_INTERVAL_SUBDIVISION \
         --interval-merging-rule OVERLAPPING_ONLY  &> {log}
         ls -l {output.out_dir}/*scattered.interval_list > {output.fof}

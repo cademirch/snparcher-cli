@@ -31,13 +31,10 @@ rule index_reference:
             ext=["sa", "pac", "bwt", "ann", "amb"],
         ),
         fai="{refGenome}.fai",
-        dictf="{refGenome}.dict",
+        
     conda:
         "../envs/fastq2bam.yml"
-    # since {refGenome} here is a full path log and benchmark paths are weird
-    # is worth it imo since user can supply refgenome that is anywhere on their fs
-    # has to be this way because some commands (picard) require genome idxs next to the fasta file
-    # and give no way to specify a different location. stupid gatk.
+    
     log:
         "logs/index_reference/{refGenome}.txt",
     benchmark:
@@ -46,5 +43,19 @@ rule index_reference:
         """
         bwa index {input.ref}  2> {log}
         samtools faidx {input.ref} --output {output.fai} >> {log}
+        """
+rule samtools_sequence_dict:
+    input:
+        ref=_reference,
+    output:
+        dictf="{refGenome}.dict",
+    conda:
+        "../envs/fastq2bam.yml"
+    log:
+        "logs/samtools_sequence_dict/{refGenome}.txt",
+    benchmark:
+        "benchmarks/samtools_sequence_dict/{refGenome}.txt"
+    shell:
+        """
         samtools dict {input.ref} -o {output.dictf} >> {log} 2>&1
         """
