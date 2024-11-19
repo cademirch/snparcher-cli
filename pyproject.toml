@@ -7,12 +7,14 @@ requires-python = ">=3.12"
 dependencies = [
     "cyvcf2>=0.31.1",
     "pandas>=2.2.2",
-    "snakemake>=8.20.3",
-    "typer>=0.12.5",
+    "pandera>=0.21.0",
+    "pytest-workflow>=2.1.0",
+    "snk-cli>=0.5.5",
 ]
 
 [project.scripts]
-snparcher = "snparcher.main:app"
+snparcher = "snparcher.cli:snparcher"
+
 
 [tool.setuptools.package-data]
 snparcher = ["workflow/**/*", "workflow/**/**/*"]

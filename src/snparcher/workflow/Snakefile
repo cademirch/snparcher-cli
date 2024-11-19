@@ -1,0 +1,37 @@
+from snakemake.utils import min_version
+from snparcher.utils import *
+min_version("6.0")
+
+include:"rules/common.smk"
+include:"rules/reference.smk"
+include:"rules/intervals.smk"
+include:"rules/fastq.smk"
+include:"rules/alignment.smk"
+include:"rules/gatk_hc_intervals.smk"
+
+
+sample_names = samples.index.tolist()
+
+def targets(wc):
+    """
+    Figure out what files we want to make. 
+    This mainly exists to make the dry run more obvious when bams are/are not being made.
+    """
+    if "bam" in samples.columns:
+        return rules.gvcfs.input
+    return [*rules.gvcfs.input, *rules.bams.input]
+
+
+rule all:
+    input:
+        targets
+        
+
+
+rule gvcfs:
+    input:
+        expand("gvcfs/{sample}.g.vcf.gz", sample=sample_names)
+
+rule bams:
+    input:
+        expand("bams/dedup/{sample}.bam", sample=sample_names)

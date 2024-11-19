@@ -1,0 +1,19 @@
+cli:
+  samples:
+    type: path
+    help: "Path to samples csv."
+    required: True
+  reference:
+    type: str
+    help: "Path to reference genome, or genome accession"
+    required: True
+  outdir:
+    type: path
+    help: "Path to where outputs should be written Will be created if does not exist. Same as snakemake's '-d/--directory'"
+    required: False
+  cov:
+    help: "Which coverage settings to use."
+    choices:
+      - "high"
+      - "low"
+    required: False

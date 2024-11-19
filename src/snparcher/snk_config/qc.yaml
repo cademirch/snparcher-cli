@@ -1,0 +1,9 @@
+cli:
+  text:
+    type: str
+    help: "The message to save to the file"
+    required: true
+  output:
+    type: path
+    help: "The path to save the message to"
+    required: true

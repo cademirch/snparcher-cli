@@ -170,3 +170,6 @@ test/run_with_snakemake/.snakemake
 test/run_with_snakemake/results/genome1/QC
 test/run_with_snakemake/logs
 .DS_store
+**/.conda/*
+test/logs
+test/**/results

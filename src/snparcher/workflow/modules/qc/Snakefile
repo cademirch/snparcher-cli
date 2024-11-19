@@ -1,0 +1,8 @@
+# src/workflow_name/workflow/Snakefile
+configfile: "config.yaml"
+
+rule hello_world:
+    output: config['output']
+    params:
+        text=config['text']
+    shell: "echo {params.text} > {output}"
