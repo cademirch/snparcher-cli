@@ -1,6 +1,8 @@
+import os
 import pandas as pd
 import pandera as pa
 from pandera import Column, DataFrameSchema, Check
+from pathlib import Path
 
 
 class SampleSheetValidator:
@@ -123,10 +125,24 @@ class SampleSheetValidator:
 
         return self.df
 
-    def validate_samplesheet(self) -> pd.DataFrame:
+    def update_df_paths(self, outdir: str) -> None:
+        """
+        Updates the paths in read_1, read_2, and bam columns to be relative to the specified outdir.
+        """
+        for col in ["read_1", "read_2", "bam"]:
+            if col in self.df.columns:
+                self.df[col] = self.df[col].apply(
+                    lambda x: os.path.relpath(x, outdir) if pd.notna(x) else x
+                )
+
+    def validate_samplesheet(self, outdir=None) -> pd.DataFrame:
         """
         Validates the sample sheet by performing header validation, row-level validation, and library ID assignment.
+        Optionally updates paths to be relative to the specified outdir.
         """
         self.validate_header()
         validated_df = self.schema.validate(self.df)
-        return self.validate_and_assign_library_id()
+        self.df = self.validate_and_assign_library_id()
+        if outdir is not None:
+            self.update_df_paths(outdir)
+        return self.df

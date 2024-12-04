@@ -17,18 +17,13 @@ rule picard_intervals:
 
 rule format_interval_list:
     input:
-        intervals="intervals/intervals.list",
+        "intervals/intervals.list"
     output:
-        intervals="intervals/intervals.formatted.list",
-    run:
-        with open(output.intervals, "w") as out:
-            with open(input.intervals, "r") as inp:
-                for line in inp:
-                    if not line.startswith("@"):
-                        line = line.strip().split("\t")
-                        chrom, start, end = line[0], line[1], line[2]
-                        print(f"{chrom}:{start}-{end}", file=out)
-
+        "intervals/intervals.formatted.list"
+    shell:
+        """
+        awk '!/^@/ {{print $1 ":" $2 "-" $3}}' {input} > {output}
+        """
 
 checkpoint create_db_intervals:
     input:

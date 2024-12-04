@@ -9,13 +9,13 @@ include: "preflight.smk"
 if config["outdir"] is not None:
     config["samples"] = relpath(config["samples"],config["outdir"])
     config["reference"] = relpath(config["reference"],config["outdir"])
-    workdir: config["outdir"]
+    workflow.workdir(config["outdir"])
 
 
 
 samples = (
     SampleSheetValidator(config["samples"])
-    .validate_samplesheet()
+    .validate_samplesheet(config["outdir"])
     .set_index("sample_id")
     .reindex()
 )
