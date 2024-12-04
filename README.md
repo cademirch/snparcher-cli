@@ -29,76 +29,29 @@ So when using snparcher commands, a user will pass the snparcher command argumen
 
 To try this out:
 
-1. Clone this repo:
-```console
-git clone https://github.com/cademirch/snparcher-cli.git
-cd snparcher-cli
+1. Create/activate Snakemake env: `conda create -c conda-forge -c bioconda -n snakemake snakemake>8.25`
+2. Install snparcher: `pip install snparcher`
+3. Run snparcher: `snparcher run`
+
+## Sample Sheets
+
+The workflow adapts to the sample sheet. Currently starting from fastqs (local/SRA) and BAMs (local) is supported. Here are examples:
+
+Starting from BAMs:
+```csv
+sample_id,bam
+sample1,test/data/bams/sample1.bam
 ```
-2. Create Conda env, or use [uv](https://docs.astral.sh/uv/) to setup env.
 
-- **Conda**:`conda create -n snparcher-cli-env "python>=3.12"`
-- **uv**:`uv venv --python 3.12 && source .venv/bin/activate`
-3. Install `snparcher` locally and editable
-
-- **Conda**:` conda activate snparcher-cli-env && pip install -e .`
-- **uv**:` uv pip install -e .`
-
-4. Check it worked! `snparcher --help`
-
+Starting from fastqs:
+```csv
+sample_id,read_1,read_2,library_id
+sample1,test/data/fastq/my_sample1_1.fastq.gz,test/data/fastq/my_sample1_2.fastq.gz,lib1
+sample1,test/data/fastq/my_sample2_1.fastq.gz,test/data/fastq/my_sample2_2.fastq.gz,lib1
+```
 
 ## Testing
-
-You can test the cli like so:
-```console
-cd test/cli
-snparcher qc --coords-file cli-coords.txt --min-depth 4 test_qc_raw.vcf.gz genome1.fna.fai --use-conda --cores 8
-```
-
-The workflow still works when run using Snakemake:
-```
-# from root of this repo
-snakemake -s snparcher/workflow/modules/qc/Snakefile -d test/run_with_snakemake --use-conda --cores 8
-```
-
-## CLI Usage
-# `snparcher`
-
-snparcher!
-
-**Usage**:
-
-```console
-$ snparcher [OPTIONS] COMMAND [ARGS]...
-```
-
-**Options**:
-
-* `--install-completion`: Install completion for the current shell.
-* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
-* `--help`: Show this message and exit.
-
-**Commands**:
-
-* `qc`
-
-## `snparcher qc`
-
-**Usage**:
-
-```console
-$ snparcher qc [OPTIONS] VCF FAI
-```
-
-**Arguments**:
-
-* `VCF`: Path to vcf file  [required]
-* `FAI`: Path to fai file  [required]
-
-**Options**:
-
-* `--coords-file PATH`: File containing coordinates for samples in VCF.  [required]
-* `--min-depth INTEGER`: Min depth of SNPs to keep  [required]
-* `--exclude-chrs TEXT`: Comma seperated list of chromosomes to exclude.
-* `--nclusters INTEGER`: Number of clusters for PCA  [default: 3]
-* `--google-api-key TEXT`: Google API key for satellite map
-* `--help`: Show this message and exit.
+After installing with pip, you can test it out:
+1. Clone this repo: `git clone https://github.com/cademirch/snparcher-cli.git`
+2. Change dirs into the repo: `cd snparcher-cli`
+3. Run the workflow: `snparcher run --samples test/start_from_fastq/local.csv --reference test/data/genome/local_genome.fna.gz -F --cores 1`
