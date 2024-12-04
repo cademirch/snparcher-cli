@@ -18,3 +18,8 @@
   command: snparcher run --samples test/start_from_bams/bams.csv --reference test/data/genome/local_genome.fna.gz -F --cores 1
   files:
     - path: "gvcfs/sample1.g.vcf.gz"
+
+- name: Test starting from fastq
+  command: snparcher run --samples test/start_from_fastq/local.csv --reference test/data/genome/local_genome.fna.gz -F --cores 1
+  files:
+    - path: "gvcfs/sample1.g.vcf.gz"
